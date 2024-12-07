@@ -9,8 +9,8 @@ public:
   {
     // パラメータの役割
     declare_parameter("fps", 20);
-    declare_parameter("mode", 0);
-    declare_parameter("format", "rgb");
+    declare_parameter("mode", 2);
+    declare_parameter("format", "raw");
     declare_parameter("timeout", 1000);
 
     fps = get_parameter("fps").as_int();
@@ -34,7 +34,7 @@ public:
 
     publisher_ = this->create_publisher<sensor_msgs::msg::Image>("image_raw", 10);
     timer_ = this->create_wall_timer(
-      std::chrono::milliseconds(500), std::bind(&Grasshopper3::timer_callback, this));
+      std::chrono::milliseconds(5), std::bind(&Grasshopper3::timer_callback, this));
 
     start_capture(cameras);
   }
