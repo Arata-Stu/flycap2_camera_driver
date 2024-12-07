@@ -8,12 +8,12 @@ public:
   Grasshopper3() : Node("grasshopper")
   {
     // パラメータの役割
-    declare_parameter("fps", 20);
+    declare_parameter("frequency", 20);
     declare_parameter("mode", 2);
     declare_parameter("format", "raw");
     declare_parameter("timeout", 1000);
 
-    fps = get_parameter("fps").as_int();
+    frequency = get_parameter("frequency").as_int();
     mode = get_parameter("mode").as_int();
     format = get_parameter("format").as_string();
     timeout = get_parameter("timeout").as_int();
@@ -33,8 +33,10 @@ public:
     initialize_cameras(cameras, &busMgr, camera_num, desired_mode, desired_pixel_format, timeout);
 
     publisher_ = this->create_publisher<sensor_msgs::msg::Image>("image_raw", 10);
+
+    auto milliseconds = std::chrono::milliseconds(static_cast<int>(1000.0 / frequency));
     timer_ = this->create_wall_timer(
-      std::chrono::milliseconds(5), std::bind(&Grasshopper3::timer_callback, this));
+      milliseconds, std::bind(&Grasshopper3::timer_callback, this));
 
     start_capture(cameras);
   }
@@ -310,7 +312,7 @@ private:
     }
   };
 
-  int fps;
+  int frequency;
   int mode;
   std::string format;
   int timeout;

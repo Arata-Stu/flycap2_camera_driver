@@ -1,0 +1,6 @@
+/**:
+  ros__parameters:
+    frequency: 200
+    mode: 2
+    format: raw
+    timeout: 1000

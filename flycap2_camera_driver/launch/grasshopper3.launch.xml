@@ -1,0 +1,11 @@
+<launch>
+  <arg name="camera_param" default="$(find-pkg-share flycap2_camera_driver)/config/params.yaml"/>
+
+  <!-- grasshopper3の起動 -->
+  <node pkg="flycap2_camera_driver" exec="grasshopper3" name="grasshopper3" output="screen">
+    <param from="$(var camera_param)"/>
+  </node>
+
+  <!-- bayer_to_rgb_converterノードの起動 -->
+  <node pkg="convert_format" exec="bayer_to_rgb_converter" name="bayer_to_rgb_converter" output="screen"/>
+</launch>
