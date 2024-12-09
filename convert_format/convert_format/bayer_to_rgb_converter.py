@@ -33,6 +33,8 @@ class BayerToRgbConverter(Node):
         # RGB画像をROS画像メッセージに変換
         try:
             rgb_image_msg = self.bridge.cv2_to_imgmsg(rgb_image, encoding="rgb8")
+            # 元のメッセージのヘッダをコピー
+            rgb_image_msg.header = msg.header
             self.publisher.publish(rgb_image_msg)
         except Exception as e:
             self.get_logger().error(f"Error publishing image: {e}")
